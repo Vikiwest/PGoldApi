@@ -52,3 +52,13 @@ Route::middleware('auth:sanctum')->group(function () {
     // Transaction History (read-only with filtering)
     Route::get('/transactions', [TransactionController::class, 'index']);
 });
+
+
+// Health check endpoint for Render
+Route::get('/health', function() {
+    return response()->json([
+        'status' => 'healthy',
+        'timestamp' => now()->toIso8601String(),
+        'database' => DB::connection()->getDatabaseName() ? 'connected' : 'disconnected'
+    ]);
+});

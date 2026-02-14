@@ -47,6 +47,18 @@
  */
 
 /**
+ * @OA\Post(
+ *     path="/logout",
+ *     summary="Logout user",
+ *     description="Invalidates user token and ends session",
+ *     tags={"Authentication"},
+ *     security={{"bearerAuth":{}}},
+ *     @OA\Response(response=200, description="Logged out successfully"),
+ *     @OA\Response(response=401, description="Unauthenticated")
+ * )
+ */
+
+/**
  * @OA\Get(
  *     path="/wallet",
  *     summary="Get wallet balance",
