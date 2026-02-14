@@ -943,14 +943,5 @@ MIT License - See LICENSE file for details
 
 ---
 
-## 📞 Support
-
-For issues, questions, or contributions:
-
-1. Check existing issues in repository
-2. Review API documentation at `/api/documentation`
-3. Consult README and TESTS.md for detailed examples
-
----
 
 **Built with ❤️ using Laravel 12**
