@@ -1,0 +1,205 @@
+# Laravel specific
+/vendor/
+/node_modules/
+/public/hot
+/public/storage
+/storage/*.key
+/storage/framework/cache/data/
+/storage/framework/sessions/
+/storage/framework/testing/
+/storage/framework/views/
+/storage/logs/
+/storage/debugbar/
+
+# SQLite database files
+/database/*.sqlite
+/database/*.sqlite3
+/database/*.db
+/database/*.sqlite-journal
+/database/*.sqlite-wal
+/database/*.sqlite-shm
+
+# Swagger generated files
+/storage/api-docs/
+/storage/swagger/
+/public/docs/
+/public/swagger/
+
+# IDE files
+.idea/
+.vscode/
+*.sublime-*
+*.sublime-workspace
+*.sublime-project
+.netbeans/
+nbproject/
+.phpstorm.meta.php
+_ide_helper.php
+_ide_helper_models.php
+.php_cs.cache
+
+# OS files
+.DS_Store
+Thumbs.db
+desktop.ini
+*.log
+*.swp
+*.swo
+*~
+
+# Local environment
+.env
+.env.*
+!.env.example
+!.env.testing
+
+# Testing
+/phpunit.xml
+.phpunit.result.cache
+/coverage/
+/tests/coverage/
+/tests/report/
+.phpunit-watcher.yml
+/tests/_output/
+/tests/_support/_generated/
+
+# Compiled assets
+/public/css/
+/public/js/
+/public/mix-manifest.json
+/public/build/
+/public/vendor/
+public/bundles/
+public/fonts/
+
+# Composer
+/composer.lock
+/composer.phar
+/vendor/
+
+# NPM
+/package-lock.json
+/yarn.lock
+/node_modules/
+
+# Docker
+/docker-compose.override.yml
+/docker-compose.yml
+/docker/
+/Dockerfile
+
+# Laravel Horizon
+/storage/horizon/
+
+# Laravel Telescope
+/storage/telescope/
+/telescope/
+
+# Laravel Nova
+/nova/
+
+# Backup files
+*.bak
+*.backup
+*.old
+
+# Environment specific
+/.idea/
+/.vscode/
+/.editorconfig
+/.php_cs
+/.php_cs.cache
+/.phpstorm.meta.php
+/_ide_helper.php
+/_ide_helper_models.php
+/.phpunit.result.cache
+
+# PDF and documentation files
+*.pdf
+*.doc
+*.docx
+
+# Uploads
+/public/uploads/
+/storage/app/public/
+/storage/app/uploads/
+/storage/app/imports/
+/storage/app/exports/
+
+# Error logs
+/storage/logs/
+*.error
+*.log
+
+# Cache files
+/storage/framework/cache/
+/storage/framework/sessions/
+/storage/framework/views/
+/storage/framework/testing/
+
+# Debugbar
+/storage/debugbar/
+
+# Ignore certificates
+*.crt
+*.key
+*.pem
+*.p12
+*.csr
+
+# Ignore sensitive files
+*.pem
+*.crt
+*.key
+*.p12
+*.csr
+*.sublime-workspace
+
+# Laravel Sail
+/docker-compose.yml
+/docker-compose.override.yml
+/sail
+/bin/sail
+
+# PHPUnit
+/phpunit.xml
+.phpunit.result.cache
+
+# Pest
+/phpunit.xml
+/.pest
+
+# Ignore temporary files
+*.tmp
+*.temp
+*.cache
+*.lock
+*.pid
+
+# VS Code
+.vscode/
+!.vscode/extensions.json
+!.vscode/launch.json
+!.vscode/tasks.json
+
+# Windows
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+$RECYCLE.BIN/
+
+# Mac
+.DS_Store
+.AppleDouble
+.LSOverride
+Icon
+._*
+.Spotlight-V100
+.Trashes
+
+# Linux
+*~
+.directory
+*.kate-swp
+*.swp
+*.swo
