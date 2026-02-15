@@ -21,3 +21,7 @@ services:
         value: file
       - key: SESSION_DRIVER
         value: file
+      - key: L5_SWAGGER_GENERATE_ALWAYS
+        value: false
+      - key: L5_SWAGGER_USE_ABSOLUTE_PATH
+        value: true

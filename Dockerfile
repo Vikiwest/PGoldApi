@@ -33,14 +33,16 @@ COPY . .
 RUN mkdir -p storage/logs \
     && mkdir -p storage/framework/sessions \
     && mkdir -p storage/framework/views \
-    && mkdir -p storage/framework/cache
+    && mkdir -p storage/framework/cache \
+    && mkdir -p storage/api-docs
 
 # Set permissions
 RUN chown -R www-data:www-data /var/www/html \
     && chmod -R 755 storage \
     && chmod -R 755 bootstrap/cache \
     && chmod -R 777 storage/logs \
-    && chmod -R 777 storage/framework
+    && chmod -R 777 storage/framework \
+    && chmod -R 777 storage/api-docs
 
 # Create .env file from example (CRITICAL FIX)
 RUN if [ ! -f .env ]; then cp .env.example .env; fi
@@ -55,6 +57,7 @@ RUN composer install --no-interaction --optimize-autoloader --no-dev
 # Generate key and cache (now .env exists)
 RUN php artisan key:generate --force \
     && php artisan config:cache \
+    && php artisan l5-swagger:generate \
     && php artisan route:cache \
     && php artisan view:cache
 
