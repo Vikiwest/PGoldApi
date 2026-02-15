@@ -11,3 +11,15 @@ use App\Http\Controllers\PriceController;
 
 // Home page with live cryptocurrency rates
 Route::get('/', [PriceController::class, 'home'])->name('home');
+
+
+// Health check endpoint for Render
+Route::get('/health', function() {
+    return response()->json([
+        'status' => 'healthy',
+        'timestamp' => now()->toIso8601String(),
+        'database' => DB::connection()->getDatabaseName() ? 'connected' : 'disconnected',
+          'swagger_exists' => file_exists(storage_path('api-docs/api-docs.json')),
+        'environment' => app()->environment()
+    ]);
+});

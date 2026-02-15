@@ -71,4 +71,16 @@ COPY docker/apache.conf /etc/apache2/sites-available/000-default.conf
 
 EXPOSE 80
 
+
+RUN echo '#!/bin/bash\n\
+echo "🔧 Running startup tasks..."\n\
+echo "📚 Generating Swagger documentation..."\n\
+php artisan l5-swagger:generate || true\n\
+chmod -R 777 storage/\n\
+chmod -R 777 bootstrap/cache/\n\
+chmod 666 database/database.sqlite || true\n\
+echo "🚀 Starting Apache..."\n\
+apache2-foreground' > /start.sh && chmod +x /start.sh
+
+
 CMD ["/start.sh"]

@@ -54,11 +54,3 @@ Route::middleware('auth:sanctum')->group(function () {
 });
 
 
-// Health check endpoint for Render
-Route::get('/health', function() {
-    return response()->json([
-        'status' => 'healthy',
-        'timestamp' => now()->toIso8601String(),
-        'database' => DB::connection()->getDatabaseName() ? 'connected' : 'disconnected'
-    ]);
-});
