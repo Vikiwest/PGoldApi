@@ -1,0 +1,23 @@
+services:
+  - type: web
+    name: pgoldapi
+    runtime: image
+    repo: https://github.com/Vikiwest/PGoldApi
+    plan: free
+    region: oregon
+    dockerfilePath: ./Dockerfile
+    envVars:
+      - key: APP_ENV
+        value: production
+      - key: APP_DEBUG
+        value: false
+      - key: APP_URL
+        value: https://pgoldapi.onrender.com
+      - key: APP_KEY
+        sync: false
+      - key: DB_CONNECTION
+        value: sqlite
+      - key: CACHE_DRIVER
+        value: file
+      - key: SESSION_DRIVER
+        value: file
