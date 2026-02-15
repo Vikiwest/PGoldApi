@@ -33,7 +33,8 @@ COPY . .
 RUN mkdir -p storage/logs \
     && mkdir -p storage/framework/sessions \
     && mkdir -p storage/framework/views \
-    && mkdir -p storage/framework/cache
+    && mkdir -p storage/framework/cache \
+    && mkdir -p storage/api-docs
 
 # Set permissions
 RUN chown -R www-data:www-data /var/www/html \
@@ -42,8 +43,8 @@ RUN chown -R www-data:www-data /var/www/html \
     && chmod -R 777 storage/logs \
     && chmod -R 777 storage/framework
 
-# Create .env file from example (CRITICAL FIX)
-RUN if [ ! -f .env ]; then cp .env.example .env; fi
+# Create .env file from example
+RUN cp .env.example .env
 
 # Create SQLite database
 RUN touch database/database.sqlite \
@@ -56,13 +57,18 @@ RUN composer install --no-interaction --optimize-autoloader --no-dev
 RUN php artisan key:generate --force \
     && php artisan config:cache \
     && php artisan route:cache \
-    && php artisan view:cache \
-    && mkdir -p storage/api-docs \
-    && php artisan l5-swagger:generate 
+    && php artisan view:cache
+
+# Create startup script
+RUN echo '#!/bin/bash\n\
+echo "Generating Swagger documentation..."\n\
+php artisan l5-swagger:generate\n\
+echo "Starting Apache..."\n\
+apache2-foreground' > /start.sh && chmod +x /start.sh
 
 # Apache configuration
 COPY docker/apache.conf /etc/apache2/sites-available/000-default.conf
 
 EXPOSE 80
 
-CMD ["apache2-foreground"]
+CMD ["/start.sh"]
