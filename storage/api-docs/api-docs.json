@@ -1,0 +1,559 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "PGoldapp API",
+        "description": "Cryptocurrency Trading Platform API",
+        "contact": {
+            "email": "chidiolorunda@gmail.com"
+        },
+        "version": "1.0.0"
+    },
+    "servers": [
+        {
+            "url": "http://localhost:8000/api",
+            "description": "Local Development Server"
+        },
+        {
+            "url": "https://api.pgoldapp.com/api",
+            "description": "Production Server"
+        }
+    ],
+    "paths": {
+        "/register": {
+            "post": {
+                "tags": ["Authentication"],
+                "summary": "Register a new user",
+                "description": "Creates a new user account and returns user data with access token",
+                "operationId": "register",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": ["name", "email", "password"],
+                                "properties": {
+                                    "name": {
+                                        "description": "User's full name",
+                                        "type": "string",
+                                        "example": "John Doe"
+                                    },
+                                    "email": {
+                                        "description": "User's email address",
+                                        "type": "string",
+                                        "format": "email",
+                                        "example": "john@example.com"
+                                    },
+                                    "password": {
+                                        "description": "User's password (min 8 characters)",
+                                        "type": "string",
+                                        "format": "password",
+                                        "example": "password123"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "User registered successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "user": {
+                                            "properties": {
+                                                "id": {
+                                                    "type": "integer",
+                                                    "example": 1
+                                                },
+                                                "name": {
+                                                    "type": "string",
+                                                    "example": "John Doe"
+                                                },
+                                                "email": {
+                                                    "type": "string",
+                                                    "example": "john@example.com"
+                                                },
+                                                "created_at": {
+                                                    "type": "string",
+                                                    "format": "datetime"
+                                                }
+                                            },
+                                            "type": "object"
+                                        },
+                                        "token": {
+                                            "type": "string",
+                                            "example": "1|abc123def456..."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "The given data was invalid."
+                                        },
+                                        "errors": {
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/login": {
+            "post": {
+                "tags": ["Authentication"],
+                "summary": "Login user",
+                "description": "Authenticate user and return access token",
+                "operationId": "login",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": ["email", "password"],
+                                "properties": {
+                                    "email": {
+                                        "description": "User's email address",
+                                        "type": "string",
+                                        "format": "email",
+                                        "example": "john@example.com"
+                                    },
+                                    "password": {
+                                        "description": "User's password",
+                                        "type": "string",
+                                        "format": "password",
+                                        "example": "password123"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Login successful",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Login successful"
+                                        },
+                                        "token": {
+                                            "type": "string",
+                                            "example": "1|abc123def456..."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Invalid credentials",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Invalid credentials"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/wallet": {
+            "get": {
+                "tags": ["Wallet"],
+                "summary": "Get user wallet balances",
+                "description": "Returns the current balances for NGN and crypto wallets",
+                "operationId": "getWallet",
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Wallet balances retrieved",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "properties": {
+                                                "naira": {
+                                                    "properties": {
+                                                        "balance": {
+                                                            "type": "number",
+                                                            "format": "float",
+                                                            "example": 1000000
+                                                        },
+                                                        "formatted_balance": {
+                                                            "type": "string",
+                                                            "example": "₦1,000,000.00"
+                                                        },
+                                                        "currency": {
+                                                            "type": "string",
+                                                            "example": "NGN"
+                                                        }
+                                                    },
+                                                    "type": "object"
+                                                },
+                                                "crypto": {
+                                                    "properties": {
+                                                        "BTC": {
+                                                            "properties": {
+                                                                "balance": {
+                                                                    "type": "number",
+                                                                    "format": "float",
+                                                                    "example": 0.05
+                                                                },
+                                                                "formatted_balance": {
+                                                                    "type": "string",
+                                                                    "example": "0.05 BTC"
+                                                                },
+                                                                "naira_value": {
+                                                                    "type": "number",
+                                                                    "format": "float",
+                                                                    "example": 4250000
+                                                                }
+                                                            },
+                                                            "type": "object"
+                                                        },
+                                                        "ETH": {
+                                                            "properties": {
+                                                                "balance": {
+                                                                    "type": "number",
+                                                                    "format": "float",
+                                                                    "example": 1.5
+                                                                },
+                                                                "naira_value": {
+                                                                    "type": "number",
+                                                                    "format": "float",
+                                                                    "example": 7500000
+                                                                }
+                                                            },
+                                                            "type": "object"
+                                                        },
+                                                        "USDT": {
+                                                            "properties": {
+                                                                "balance": {
+                                                                    "type": "number",
+                                                                    "format": "float",
+                                                                    "example": 1000
+                                                                },
+                                                                "naira_value": {
+                                                                    "type": "number",
+                                                                    "format": "float",
+                                                                    "example": 1500000
+                                                                }
+                                                            },
+                                                            "type": "object"
+                                                        }
+                                                    },
+                                                    "type": "object"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/trade/buy": {
+            "post": {
+                "tags": ["Trading"],
+                "summary": "Buy cryptocurrency",
+                "description": "Purchase crypto assets using NGN wallet balance",
+                "operationId": "buyCrypto",
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": ["asset", "amount"],
+                                "properties": {
+                                    "asset": {
+                                        "description": "Crypto asset to buy",
+                                        "type": "string",
+                                        "enum": ["BTC", "ETH", "USDT"],
+                                        "example": "BTC"
+                                    },
+                                    "amount": {
+                                        "description": "Amount in NGN (minimum 5000)",
+                                        "type": "number",
+                                        "format": "float",
+                                        "example": 50000
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Purchase successful",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Purchase successful"
+                                        },
+                                        "data": {
+                                            "properties": {
+                                                "transaction": {
+                                                    "type": "object"
+                                                },
+                                                "crypto_amount": {
+                                                    "type": "number",
+                                                    "example": 0.00058824
+                                                },
+                                                "rate": {
+                                                    "type": "number",
+                                                    "example": 85000000
+                                                },
+                                                "fee": {
+                                                    "type": "number",
+                                                    "example": 500
+                                                },
+                                                "new_balances": {
+                                                    "type": "object"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/trade/sell": {
+            "post": {
+                "tags": ["Trading"],
+                "summary": "Sell cryptocurrency",
+                "description": "Sell crypto assets and convert to NGN",
+                "operationId": "sellCrypto",
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": ["asset", "amount"],
+                                "properties": {
+                                    "asset": {
+                                        "description": "Crypto asset to sell",
+                                        "type": "string",
+                                        "enum": ["BTC", "ETH", "USDT"],
+                                        "example": "BTC"
+                                    },
+                                    "amount": {
+                                        "description": "Amount of crypto to sell",
+                                        "type": "number",
+                                        "format": "float",
+                                        "example": 0.05
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Sale successful",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Sale successful"
+                                        },
+                                        "data": {
+                                            "properties": {
+                                                "transaction": {
+                                                    "type": "object"
+                                                },
+                                                "naira_amount": {
+                                                    "type": "number",
+                                                    "example": 4250000
+                                                },
+                                                "rate": {
+                                                    "type": "number",
+                                                    "example": 85000000
+                                                },
+                                                "fee": {
+                                                    "type": "number",
+                                                    "example": 500
+                                                },
+                                                "new_balances": {
+                                                    "type": "object"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/transactions": {
+            "get": {
+                "tags": ["Transactions"],
+                "summary": "Get user transactions",
+                "description": "Returns paginated list of user transactions",
+                "operationId": "getTransactions",
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Transactions retrieved",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "properties": {
+                                                    "id": {
+                                                        "type": "integer"
+                                                    },
+                                                    "type": {
+                                                        "type": "string",
+                                                        "enum": ["buy", "sell"]
+                                                    },
+                                                    "asset": {
+                                                        "type": "string"
+                                                    },
+                                                    "amount": {
+                                                        "type": "number"
+                                                    },
+                                                    "price": {
+                                                        "type": "number"
+                                                    },
+                                                    "fee": {
+                                                        "type": "number"
+                                                    },
+                                                    "status": {
+                                                        "type": "string",
+                                                        "enum": [
+                                                            "pending",
+                                                            "completed",
+                                                            "failed"
+                                                        ]
+                                                    },
+                                                    "created_at": {
+                                                        "type": "string",
+                                                        "format": "datetime"
+                                                    }
+                                                },
+                                                "type": "object"
+                                            }
+                                        },
+                                        "pagination": {
+                                            "properties": {
+                                                "current_page": {
+                                                    "type": "integer"
+                                                },
+                                                "total": {
+                                                    "type": "integer"
+                                                },
+                                                "per_page": {
+                                                    "type": "integer"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "components": {
+        "securitySchemes": {
+            "bearerAuth": {
+                "type": "http",
+                "scheme": "bearer",
+                "bearerFormat": "JWT"
+            }
+        }
+    },
+    "tags": [
+        {
+            "name": "Authentication",
+            "description": "User authentication endpoints"
+        },
+        {
+            "name": "Wallet",
+            "description": "Wallet management endpoints"
+        },
+        {
+            "name": "Trading",
+            "description": "Cryptocurrency trading endpoints"
+        },
+        {
+            "name": "Transactions",
+            "description": "Transaction history endpoints"
+        }
+    ]
+}

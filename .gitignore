@@ -19,11 +19,7 @@
 /database/*.sqlite-wal
 /database/*.sqlite-shm
 
-# Swagger generated files
-/storage/api-docs/
-/storage/swagger/
-/public/docs/
-/public/swagger/
+
 
 # IDE files
 .idea/

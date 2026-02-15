@@ -17,9 +17,7 @@ services:
         sync: false
       - key: DB_CONNECTION
         value: sqlite
-      - key: SESSION_DRIVER
-        value: file
       - key: CACHE_DRIVER
         value: file
-      - key: L5_SWAGGER_GENERATE_ALWAYS
-        value: false
+      - key: SESSION_DRIVER
+        value: file
