@@ -1,4 +1,3 @@
-# Dockerfile
 FROM php:8.2-apache
 
 # Install system dependencies
@@ -30,11 +29,16 @@ WORKDIR /var/www/html
 # Copy application files
 COPY . .
 
-# Set permissions
-RUN chown -R www-data:www-data /var/www/html \
+# Create storage directories and set permissions
+RUN mkdir -p storage/logs \
+    && mkdir -p storage/framework/sessions \
+    && mkdir -p storage/framework/views \
+    && mkdir -p storage/framework/cache \
+    && chown -R www-data:www-data /var/www/html \
     && chmod -R 755 storage \
     && chmod -R 755 bootstrap/cache \
-    && chmod -R 777 storage/logs
+    && chmod -R 777 storage/logs \
+    && chmod -R 777 storage/framework
 
 # Create SQLite database
 RUN touch database/database.sqlite \
@@ -48,17 +52,6 @@ RUN php artisan key:generate \
     && php artisan config:cache \
     && php artisan route:cache \
     && php artisan view:cache
-
-
-# Set permissions for storage and cache directories
-RUN mkdir -p storage/logs \
-    && mkdir -p storage/framework/{sessions,views,cache} \
-    && chown -R www-data:www-data /var/www/html \
-    && chmod -R 755 storage \
-    && chmod -R 755 bootstrap/cache \
-    && chmod -R 777 storage/logs \
-    && chmod -R 777 storage/framework
-
 
 # Apache configuration
 COPY docker/apache.conf /etc/apache2/sites-available/000-default.conf
