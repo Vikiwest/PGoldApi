@@ -54,6 +54,9 @@ RUN touch database/database.sqlite \
 # Install dependencies
 RUN composer install --no-interaction --optimize-autoloader --no-dev
 
+# Create symlink for vendor assets (Swagger UI)
+RUN ln -s /var/www/html/vendor /var/www/html/public/vendor
+
 # Generate key and cache (now .env exists)
 RUN php artisan key:generate --force \
     && php artisan config:cache \
