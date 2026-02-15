@@ -52,13 +52,13 @@ RUN touch database/database.sqlite \
 # Install dependencies
 RUN composer install --no-interaction --optimize-autoloader --no-dev
 
-# Generate key and cache (now .env exists)
+# Generate key and cache
 RUN php artisan key:generate --force \
     && php artisan config:cache \
     && php artisan route:cache \
     && php artisan view:cache \
     && mkdir -p storage/api-docs \
-    && php artisan l5-swagger:generate --force
+    && php artisan l5-swagger:generate 
 
 # Apache configuration
 COPY docker/apache.conf /etc/apache2/sites-available/000-default.conf
