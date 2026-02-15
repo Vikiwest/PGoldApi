@@ -29,16 +29,21 @@ WORKDIR /var/www/html
 # Copy application files
 COPY . .
 
-# Create storage directories and set permissions
+# Create storage directories
 RUN mkdir -p storage/logs \
     && mkdir -p storage/framework/sessions \
     && mkdir -p storage/framework/views \
-    && mkdir -p storage/framework/cache \
-    && chown -R www-data:www-data /var/www/html \
+    && mkdir -p storage/framework/cache
+
+# Set permissions
+RUN chown -R www-data:www-data /var/www/html \
     && chmod -R 755 storage \
     && chmod -R 755 bootstrap/cache \
     && chmod -R 777 storage/logs \
     && chmod -R 777 storage/framework
+
+# Create .env file from example (CRITICAL FIX)
+RUN if [ ! -f .env ]; then cp .env.example .env; fi
 
 # Create SQLite database
 RUN touch database/database.sqlite \
@@ -47,8 +52,8 @@ RUN touch database/database.sqlite \
 # Install dependencies
 RUN composer install --no-interaction --optimize-autoloader --no-dev
 
-# Generate key and cache
-RUN php artisan key:generate \
+# Generate key and cache (now .env exists)
+RUN php artisan key:generate --force \
     && php artisan config:cache \
     && php artisan route:cache \
     && php artisan view:cache
