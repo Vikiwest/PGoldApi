@@ -49,6 +49,17 @@ RUN php artisan key:generate \
     && php artisan route:cache \
     && php artisan view:cache
 
+
+# Set permissions for storage and cache directories
+RUN mkdir -p storage/logs \
+    && mkdir -p storage/framework/{sessions,views,cache} \
+    && chown -R www-data:www-data /var/www/html \
+    && chmod -R 755 storage \
+    && chmod -R 755 bootstrap/cache \
+    && chmod -R 777 storage/logs \
+    && chmod -R 777 storage/framework
+
+
 # Apache configuration
 COPY docker/apache.conf /etc/apache2/sites-available/000-default.conf
 
