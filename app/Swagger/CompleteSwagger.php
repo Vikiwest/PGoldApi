@@ -1,77 +1,22 @@
 <?php
+namespace App\Swagger;
 
 /**
  * @OA\Info(
  *     title="PGoldapp API",
  *     version="1.0.0",
- *     description="Cryptocurrency Trading Platform API"
+ *     description="Cryptocurrency Trading Platform API",
+ *     contact={"email":"support@pgoldapp.com"}
  * )
  * @OA\Server(
- *     url="http://localhost:8000/api"
+ *     url="http://localhost:8000/api",
+ *     description="Development Server"
+ * )
+ * @OA\Server(
+ *     url="https://pgoldapi.onrender.com/api",
+ *     description="Production Server"
  * )
  */
-
-/**
- * @OA\Post(
- *     path="/register",
- *     summary="Register a new user",
- *     tags={"Authentication"},
- *     @OA\RequestBody(
- *         required=true,
- *         @OA\JsonContent(
- *             required={"name","email","password"},
- *             @OA\Property(property="name", type="string", example="John Doe"),
- *             @OA\Property(property="email", type="string", format="email", example="john@example.com"),
- *             @OA\Property(property="password", type="string", format="password", example="password123")
- *         )
- *     ),
- *     @OA\Response(response=201, description="User registered successfully")
- * )
- */
-
-/**
- * @OA\Post(
- *     path="/login",
- *     summary="Login user",
- *     tags={"Authentication"},
- *     @OA\RequestBody(
- *         required=true,
- *         @OA\JsonContent(
- *             required={"email","password"},
- *             @OA\Property(property="email", type="string", format="email", example="john@example.com"),
- *             @OA\Property(property="password", type="string", format="password", example="password123")
- *         )
- *     ),
- *     @OA\Response(response=200, description="Login successful")
- * )
- */
-
-/**
- * @OA\Post(
- *     path="/logout",
- *     summary="Logout user",
- *     description="Invalidates user token and ends session",
- *     tags={"Authentication"},
- *     security={{"bearerAuth":{}}},
- *     @OA\Response(response=200, description="Logged out successfully"),
- *     @OA\Response(response=401, description="Unauthenticated")
- * )
- */
-
-/**
- * @OA\Get(
- *     path="/wallet",
- *     summary="Get wallet balance",
- *     tags={"Wallet"},
- *     security={{"bearerAuth":{}}},
- *     @OA\Response(response=200, description="Wallet details")
- * )
- */
-
-/**
- * @OA\SecurityScheme(
- *     securityScheme="bearerAuth",
- *     type="http",
- *     scheme="bearer"
- * )
- */
+class SwaggerDefinition
+{
+}

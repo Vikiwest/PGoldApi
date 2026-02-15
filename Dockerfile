@@ -57,7 +57,6 @@ RUN composer install --no-interaction --optimize-autoloader --no-dev
 # Generate key and cache (now .env exists)
 RUN php artisan key:generate --force \
     && php artisan config:cache \
-    && php artisan l5-swagger:generate \
     && php artisan route:cache \
     && php artisan view:cache
 
