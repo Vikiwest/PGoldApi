@@ -85,7 +85,6 @@ public/fonts/
 # Docker
 /docker-compose.override.yml
 /docker-compose.yml
-/docker/
 
 # Laravel Horizon
 /storage/horizon/
